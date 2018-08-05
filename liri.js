@@ -10,48 +10,36 @@ var spotify = new Spotify({
     id: process.env.SPOTIFY_ID,
     secret: process.env.SPOTIFY_SECRET
 });
-var client = new Twitter(keys.twitter);
+var client = new Twitter({
+    consumer_key: process.env.TWITTER_CONSUMER_KEY,
+    consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+    access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
+    access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+});
 
 
 switch (process.argv[2]) {
     case 'my-tweets':
-        console.log(client);
+        var params = { screen_name: process.argv[3] };
+        client.get('statuses/user_timeline', params, function (error, tweets, response) {
+            if (!error) {
+
+                for (var i in tweets) {
+                    console.log(tweets[i].text);
+                }
+            }
+        });
         break;
     case 'spotify-this-song':
-        // console.log(spotify);
-
-
         spotify.search({ type: 'track', query: process.argv[3], limit: 1 }, function (err, data) {
             if (err) {
                 return console.log('Error occurred: ' + err);
-            }           
+            }
             console.log("Artist's Name: " + data.tracks.items[0].album.artists[0].name);
             console.log("Album Name: " + data.tracks.items[0].album.name);
             console.log("Song Name: " + data.tracks.items[0].name);
             console.log("Song Url: " + data.tracks.items[0].external_urls.spotify);
         });
-
-
-        // spotify
-        //     .request("https://api.spotify.com/v1/search?q=name:one%20artist:metallica&type=track&limit=10")
-        //     .then(function (data) {
-        //         console.log(data.artists);
-        //         console.log(data);
-        //     })
-        //     .catch(function (err) {
-        //         console.error('Error occurred: ' + err);
-        //     });
-
-
-
-
-
-
-
-
-
-
-
         break;
     case `movie-this`:
         if (process.argv[3] === undefined) {
