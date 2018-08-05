@@ -1,10 +1,10 @@
 require("dotenv").config();
 
+const fs = require("fs");
 var Twitter = require('twitter');
 var keys = require("./keys.js")
 var request = require("request");
-var Spotify = require('node-spotify-api');
-
+var Spotify = require("node-spotify-api");
 
 var spotify = new Spotify({
     id: process.env.SPOTIFY_ID,
@@ -16,7 +16,6 @@ var client = new Twitter({
     access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
     access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
-
 // Switch Statements
 switch (process.argv[2]) {
     // Twitter
@@ -72,10 +71,33 @@ switch (process.argv[2]) {
         break;
     //Random
     case `do-what-it-says`:
-        console.log(client);
+        fs.readFile("random.txt", "utf8", function (error, data) {
+            if (error) {
+                return console.log(error);
+            }
+
+            spotify.search({ type: 'track', query: data, limit: 1 }, function (err, data) {
+                if (err) {
+                    return console.log('Error occurred: ' + err);
+                }
+                console.log("Artist's Name: " + data.tracks.items[0].album.artists[0].name);
+                console.log("Album Name: " + data.tracks.items[0].album.name);
+                console.log("Song Name: " + data.tracks.items[0].name);
+                console.log("Song Url: " + data.tracks.items[0].external_urls.spotify);
+            });
+        });     
+        // console.log(fs.dowhatitsays.randomCommand);
         break;
-
-
-
-
 }
+
+fs.appendFile("log.txt", process.argv[2] + " --> " + process.argv[3] + "\n", function(err) {
+    if (err) {
+      console.log(err);
+    }
+  
+    
+    else {
+      console.log("Content Added!");
+    }
+  
+  });
