@@ -21,7 +21,7 @@ switch (process.argv[2]) {
     // Twitter
     case 'my-tweets':
         var params = { screen_name: process.argv[3] };
-        client.get('statuses/user_timeline', params, function (error, tweets, response) {
+        client.get('statuses/user_timeline', params, (error, tweets, response) => {
             if (!error) {
                 for (var i in tweets) {
                     console.log(tweets[i].text);
@@ -37,7 +37,7 @@ switch (process.argv[2]) {
         } else {
             query = process.argv[3]
         }
-        spotify.search({ type: 'track', query: query, limit: 1 }, function (err, data) {
+        spotify.search({ type: 'track', query: query, limit: 1 }, (err, data) => {
             if (err) {
                 return console.log('Error occurred: ' + err);
             }
@@ -56,7 +56,7 @@ switch (process.argv[2]) {
             var movieName = process.argv[3];
             var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
         }
-        request(queryUrl, function (error, response, body) {
+        request(queryUrl, (error, response, body) => {
             if (!error && response.statusCode === 200) {
                 console.log("Title: " + JSON.parse(body).Title);
                 console.log("Released: " + JSON.parse(body).Released);
@@ -71,12 +71,12 @@ switch (process.argv[2]) {
         break;
     //Random
     case `do-what-it-says`:
-        fs.readFile("random.txt", "utf8", function (error, data) {
+        fs.readFile("random.txt", "utf8", (error, data) => {
             if (error) {
                 return console.log(error);
             }
 
-            spotify.search({ type: 'track', query: data, limit: 1 }, function (err, data) {
+            spotify.search({ type: 'track', query: data, limit: 1 }, (err, data) => {
                 if (err) {
                     return console.log('Error occurred: ' + err);
                 }
@@ -90,14 +90,10 @@ switch (process.argv[2]) {
         break;
 }
 
-fs.appendFile("log.txt", process.argv[2] + " --> " + process.argv[3] + "\n", function(err) {
+fs.appendFile("log.txt", process.argv[2] + " --> " + process.argv[3] + "\n", (err) => {
     if (err) {
       console.log(err);
-    }
-  
-    
-    else {
+    } else {
       console.log("Content Added!");
-    }
-  
+    }  
   });
