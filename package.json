@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/ajschilt86/Liri/issues"
   },
-  "homepage": "https://github.com/ajschilt86/Liri#readme"
+  "homepage": "https://github.com/ajschilt86/Liri#readme",
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "node-spotify-api": "^1.0.7",
+    "request": "^2.87.0",
+    "twitter": "^1.7.1"
+  }
 }
