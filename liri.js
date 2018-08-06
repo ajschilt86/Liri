@@ -19,7 +19,7 @@ function twitter() {
             }
         }
     });
-}77
+}
 function spot() {
     var query = "";
     if (process.argv[3] === undefined) {
@@ -74,7 +74,6 @@ function doWhatItSays() {
         });
     });
 }
-
 // Switch Statements
 switch (process.argv[2]) {
     // Twitter
