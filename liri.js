@@ -1,11 +1,9 @@
 require("dotenv").config();
-
 const fs = require("fs");
 const Twitter = require('twitter');
 const keys = require("./keys.js")
 const request = require("request");
 const Spotify = require("node-spotify-api");
-
 var spotify = new Spotify(keys.spotify);
 var client = new Twitter(keys.twitter);
 
@@ -15,7 +13,9 @@ function twitter() {
     client.get('statuses/user_timeline', params, (error, tweets, response) => {
         if (!error) {
             for (var i in tweets) {
+                console.log("=================================================================");
                 console.log(tweets[i].text);
+                console.log("=================================================================");
             }
         }
     });
@@ -31,10 +31,12 @@ function spot() {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-        console.log("Artist's Name: " + data.tracks.items[0].album.artists[0].name);
-        console.log("Album Name: " + data.tracks.items[0].album.name);
-        console.log("Song Name: " + data.tracks.items[0].name);
-        console.log("Song Url: " + data.tracks.items[0].external_urls.spotify);
+        console.log("========================================================================");
+        console.log("Artist's Name: " + data.tracks.items[0].album.artists[0].name + 
+                    "\nAlbum Name: " + data.tracks.items[0].album.name + 
+                    "\nSong Name: " + data.tracks.items[0].name + 
+                    "\nSong Url: " + data.tracks.items[0].external_urls.spotify);
+        console.log("========================================================================");
     });
 }
 function movie() {
@@ -47,14 +49,16 @@ function movie() {
     }
     request(queryUrl, (error, response, body) => {
         if (!error && response.statusCode === 200) {
-            console.log("Title: " + JSON.parse(body).Title);
-            console.log("Released: " + JSON.parse(body).Released);
-            console.log("Rating: " + JSON.parse(body).imdbRating);
-            console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
-            console.log("Country: " + JSON.parse(body).Country);
-            console.log("Language: " + JSON.parse(body).Language);
-            console.log("Plot: " + JSON.parse(body).Plot);
-            console.log("Actors: " + JSON.parse(body).Actors);
+            console.log("====================================================================");
+            console.log("Title: " + JSON.parse(body).Title + 
+                        "\nReleased: " + JSON.parse(body).Released + 
+                        "\nRating: " + JSON.parse(body).imdbRating + 
+                        "\nRotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value + 
+                        "\nCountry: " + JSON.parse(body).Country +
+                        "\nLanguage: " + JSON.parse(body).Language + 
+                        "\nPlot: " + JSON.parse(body).Plot + 
+                        "\nActors: " + JSON.parse(body).Actors);
+            console.log("====================================================================");
         }
     });
 }
@@ -67,10 +71,12 @@ function doWhatItSays() {
             if (err) {
                 return console.log('Error occurred: ' + err);
             }
-            console.log("Artist's Name: " + data.tracks.items[0].album.artists[0].name);
-            console.log("Album Name: " + data.tracks.items[0].album.name);
-            console.log("Song Name: " + data.tracks.items[0].name);
-            console.log("Song Url: " + data.tracks.items[0].external_urls.spotify);
+            console.log("====================================================================");
+            console.log("Artist's Name: " + data.tracks.items[0].album.artists[0].name + 
+                        "\nAlbum Name: " + data.tracks.items[0].album.name + 
+                        "\nSong Name: " + data.tracks.items[0].name + 
+                        "\nSong Url: " + data.tracks.items[0].external_urls.spotify);
+            console.log("====================================================================");
         });
     });
 }
@@ -93,11 +99,11 @@ switch (process.argv[2]) {
         doWhatItSays();
         break;
 }
-
+//Add to log
 fs.appendFile("log.txt", process.argv[2] + " --> " + process.argv[3] + "\n", (err) => {
     if (err) {
         console.log(err);
     } else {
-        console.log("Content Added!");
+        console.log("Added to the log");
     }
 });
