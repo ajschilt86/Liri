@@ -1,6 +1,6 @@
 # Liri-node-app
 
-https://ajschilt86.github.io/Liri/
+This is a backend node.js application!
 
 
 Liri, like siri but no speech!
